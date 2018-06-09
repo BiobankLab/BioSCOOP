@@ -9,15 +9,15 @@ It should be easy to integrate BioSCOOP capabilities into existing BBMS.
 
 BioSCOOP is divided into three parts: the data format definition, data operations definition, data query format.
 
-Data format definition
-Data operations definition
-Data query format
+- Data format definition
+- Data operations definition
+- Data query format
 
 **Glossary**
 
-BBMS - BioBank Management System.
-JSON - JavaScript Object Notation
-IT - Information Technology
+- BBMS - BioBank Management System.
+- JSON - JavaScript Object Notation
+- IT - Information Technology
 
 **Design**
 
