@@ -1,6 +1,6 @@
 swagger: '2.0'
 info:
-  description: ''
+  description: 'This is an eg. fields of BioSCOOP communication standard.'
   version: 0.0.1
   title: BioSCOOP
   termsOfService: 'http://swagger.io/terms/'
@@ -42,22 +42,23 @@ paths:
           description: Donor not found
 definitions:
   Kind:
+    description: 'human kind'
     type: object
     properties:
       basic:
         type: string
         enum:
-          - white
-          - yellow
-          - black
-          - mixed
+          - 'white'
+          - 'yellow'
+          - 'black'
+          - 'mixed'
   SkinTone:
+    description: 'properties that describe skin tone'
     type: object
     properties:
       vonLuschan:
+        description: 'von Luschan scale'
         type: integer
-      #text_description:
-      #  type: string
         enum:
           - 1
           - 2
@@ -92,6 +93,7 @@ definitions:
           - 31
           - 32
       michalski:
+        description: 'michalski scale'
         type: integer
         enum:
           - 10
@@ -102,7 +104,18 @@ definitions:
           - 60
           - 70
           - 80
+      timestamp:
+        description: 'measurement date'
+        type: object
+        properties:
+          year:
+            type: integer
+          month:
+            type: integer
+          day:
+            type: integer
   HairColor:
+    description: 'properties that describe Hair colour'
     type: object
     properties:
       hc_palet:
@@ -111,13 +124,23 @@ definitions:
         type: string
         enum:
           - 'A very light blond'
-          - 'B-E light blond'
-          - 'F-L blond'
-          - 'M-O dark blond'
-          - 'P-T light brown to medium brown'
-          - 'U-Y dark brown/black'
-          - '1-4 red'
-          - '5-6 red blond'
+          - 'B,C,D,E light blond'
+          - 'F,G,H,I,J,K,L blond'
+          - 'M,N,O dark blond'
+          - 'P,Q,R,S,T light brown to medium brown'
+          - 'U,V,W,X,Y dark brown/black'
+          - '1,2,3,4 red'
+          - '5,6 red blond'
+      timestamp:
+        description: 'measurement date'
+        type: object
+        properties:
+          year:
+            type: integer
+          month:
+            type: integer
+          day:
+            type: integer
   Donor:
     type: object
     required:
@@ -139,7 +162,7 @@ definitions:
       age:
         type: integer
         description: Donor's age based on date of birth
-      race:
+      kind:
         $ref: '#/definitions/Kind'
       skin_tone:
         $ref: '#/definitions/SkinTone'
