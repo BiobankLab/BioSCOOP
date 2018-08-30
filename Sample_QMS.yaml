@@ -32,7 +32,7 @@ paths:
         - application/json
       parameters:
         - in: body
-          name: donor_description
+          name: donorDescription
           description: Donor data to store
           required: true
           schema:
@@ -41,6 +41,15 @@ paths:
         '404':
           description: Donor not found
 definitions:
+  MeasurementDate:
+    description: measurement date
+    type: object
+    properties:
+      date:
+        type: string
+        format: date-time
+      dateCorrectess:
+        type: string
   Kind:
     description: human kind
     type: object
@@ -59,39 +68,8 @@ definitions:
       vonLuschan:
         description: von Luschan scale
         type: integer
-        enum:
-          - 1
-          - 2
-          - 3
-          - 4
-          - 5
-          - 6
-          - 7
-          - 8
-          - 9
-          - 10
-          - 11
-          - 12
-          - 13
-          - 14
-          - 15
-          - 16
-          - 17
-          - 18
-          - 19
-          - 20
-          - 21
-          - 22
-          - 23
-          - 24
-          - 25
-          - 26
-          - 27
-          - 28
-          - 29
-          - 30
-          - 31
-          - 32
+        minimum: 1
+        maximum: 32
       michalski:
         description: michalski scale
         type: integer
@@ -105,22 +83,14 @@ definitions:
           - 70
           - 80
       timestamp:
-        description: measurement date
-        type: object
-        properties:
-          year:
-            type: integer
-          month:
-            type: integer
-          day:
-            type: integer
+        $ref: '#/definitions/MeasurementDate'
   HairColor:
     description: properties that describe Hair colour
     type: object
     properties:
-      hc_palet:
+      hcPalet:
         type: integer
-      text_description:
+      textDescription:
         type: string
         enum:
           - 'A very light blond'
@@ -132,31 +102,7 @@ definitions:
           - '1,2,3,4 red'
           - '5,6 red blond'
       timestamp:
-        description: measurement date
-        type: object
-        properties:
-          year:
-            type: integer
-          month:
-            type: integer
-          day:
-            type: integer
-  ICD-10:
-    description: the list of diseases
-    type: object
-    properties:
-      icd10:
-        type: string
-      timestamp:
-        description: measurement date
-        type: object
-        properties:
-          year:
-            type: integer
-          month:
-            type: integer
-          day:
-            type: integer
+        $ref: '#/definitions/MeasurementDate'
   Weight: 
     description: the body mass in kg
     type: object
@@ -164,15 +110,7 @@ definitions:
       weight:
         type: number
       timestamp:
-        description: measurement date
-        type: object
-        properties:
-          year:
-            type: integer
-          month:
-            type: integer
-          day:
-            type: integer
+        $ref: '#/definitions/MeasurementDate'
   Height:
     description: the body height in cm
     type: object
@@ -180,20 +118,16 @@ definitions:
       height:
         type: number
       timestamp:
-        description: measurement date
-        type: object
-        properties:
-          year:
-            type: integer
-          month:
-            type: integer
-          day:
-            type: integer
+        $ref: '#/definitions/MeasurementDate'
   EyeColour:
     description: eye colour
     type: object
     properties:
-      IRIS Plex:
+      IrisPlex:
+        type: integer
+        minimum: 1
+        maximum: 16
+      textDescription:
         type: string
         enum: 
           - '1-2 blue' 
@@ -213,15 +147,7 @@ definitions:
       WHR: 
         type: number
       timestamp:
-        description: measurement date
-        type: object
-        properties:
-          year:
-            type: integer
-          month:
-            type: integer
-          day:
-            type: integer
+        $ref: '#/definitions/MeasurementDate'
   BMI:
     description: body mass index
     type: object
@@ -229,15 +155,7 @@ definitions:
       BMI: 
         type: number
       timestamp:
-        description: measurement date
-        type: object
-        properties: 
-          year:
-            type: integer
-          month:
-            type: integer
-          day:
-            type: integer
+        $ref: '#/definitions/MeasurementDate'
   BloodGroup:
     description: blood group
     type: object
@@ -268,24 +186,64 @@ definitions:
           - 'kp'
       Other: 
         type: string
-  ICD-9:
-    description: the list of medical procedures
+  MedicalProcedure:
+    description: medical procedure
     type: object
     properties:
       icd9:
         type: string
+        pattern: '([V\d]\d{2}(\.?\d{0,2})?|E\d{3}(\.?\d)?|\d{2}(\.?\d{0,2})?)'
+      noCode:
+        type: string
       timestamp:
-        description: measurement date
-        type: object
-        properties:
-          year:
-            type: integer
-          month:
-            type: integer
-          day:
-            type: integer
-    
-        
+        $ref: '#/definitions/MeasurementDate'
+  Disease:
+    description: Disease
+    type: object
+    properties:
+      icd-9:
+        type: string
+        pattern: '([V\d]\d{2}(\.?\d{0,2})?|E\d{3}(\.?\d)?|\d{2}(\.?\d{0,2})?)'
+      icd-10:
+        type: string
+        pattern: '([A-TV-Z][0-9][A-Z0-9](\.?[A-Z0-9]{0,4})?)'
+      noCode:
+        type: string
+      timestamp:
+        $ref: '#/definitions/MeasurementDate'
+  SampleMaterial:
+    description: sample material
+    type: object
+    properties:
+      materialType:
+        type: string
+        enum:
+        - 'DNA'
+        - 'RNA'
+        - 'cDNA/mRNA'
+        - 'microRNA'
+        - 'Whole blood'
+        - 'Peripheral blood cells'
+        - 'Plasma'
+        - 'Serum'
+        - 'Tissue, cryo preserved'
+        - 'Tissue, paraffin preserved'
+        - 'Cell lines'
+        - 'Urine'
+        - 'Saliva'
+        - 'Faeces'
+        - 'Pathogen'
+        - 'Other'
+      storageTemperature:
+        type: string
+        description: values in Celsius degrees scale
+        enum:
+        - 'Room temperature'
+        - '2 to 10'
+        - '-18 to -35'
+        - '-60 to -85'
+        - '-150 to -196'
+        - 'other'
   Donor:
     type: object
     required:
@@ -309,26 +267,29 @@ definitions:
         description: Donor's age based on date of birth
       kind:
         $ref: '#/definitions/Kind'
-      skin_tone:
+      skinTone:
         $ref: '#/definitions/SkinTone'
-      hair_color:
+      hairColor:
         $ref: '#/definitions/HairColor'
-      icd10: 
-        $ref: '#/definitions/ICD-10'
       weight:
         $ref: '#/definitions/Weight'
       height:
         $ref: '#/definitions/Height'
-      eye colour:
+      eyeColor:
         $ref: '#/definitions/EyeColour'
-      WHR:
+      whr:
         $ref: '#/definitions/WHR'
-      BMI:
+      bmi:
         $ref: '#/definitions/BMI'
-      Blood group:
+      blood group:
         $ref: '#/definitions/BloodGroup'
-      icd9:
-        $ref: '#/definitions/ICD-9'
-      sample material:
-        $ref: '#/definitions/SampleMaterial'
-
+      diseases:
+        type: array
+        items:
+          $ref: '#/definitions/Disease'
+      medicalProcedures:
+        type: array
+        items:
+          $ref: '#/definitions/MedicalProcedure'
+      sampleMaterial:
+          $ref: '#/definitions/SampleMaterial'
