@@ -1,0 +1,778 @@
+swagger: '2.0'
+info:
+  description: This is an eg. fields of BioSCOOP communication standard.
+  version: 0.0.1
+  title: BioSCOOP
+  termsOfService: 'http://swagger.io/terms/'
+  contact:
+    email: blazej.marciniak@biol.uni.lodz.pl
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+host: sample.biobank.pl
+basePath: /v1
+tags:
+  - name: donor
+    description: Donor description
+    externalDocs:
+      description: Find out more
+      url: 'http://swagger.io'
+schemes:
+  - http
+paths:
+  /donor:
+    post:
+      tags:
+        - donor
+      description: Adding new donor
+      operationId: addDonor
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: donorDescription
+          description: Donor data to store
+          required: true
+          schema:
+            $ref: '#/definitions/Donor'
+      responses:
+        '404':
+          description: Donor not found
+definitions:
+  Birth_place:
+    description: Place of birth
+    type: object
+    properties: 
+      BP: 
+        description: place of birth
+        type: string
+      timestamp: 
+        $ref: '#/definitions/MeasurementDate'
+  Residence_place:
+    description: place of current resident
+    type: object
+    properties:
+      RP:
+        description: place of current residence
+        type: string
+      timestamp: 
+        $ref: '#/definitions/MeasurementDate'
+  DonorID:
+    description: >-
+      Numeric code specific to particular sample-donor that also links the
+      sample collection (MIABIS 2.0) to the hosting biobank or study (ISO1366
+      alpha2)
+    type: integer
+  MeasurementDate:
+    description: measurement date
+    type: object
+    properties:
+      date:
+        type: string
+        format: date-time
+      dateCorrectess:
+        type: string
+  Ethnic_group:
+    description: Ethnic identity of donor (MIABIS 2.0)
+    type: string
+    enum:
+      - white
+      - yellow
+      - black
+      - mixed
+  SkinTone:
+    description: >-
+      Skin tone described with the use of scales (Michalski and von Lunchen,
+      CIELAB scales)
+    type: object
+    properties:
+      vonLuschan:
+        description: von Luschan scale
+        type: integer
+        minimum: 1
+        maximum: 32
+      michalski:
+        description: michalski scale
+        type: integer
+        enum:
+          - 10
+          - 20
+          - 30
+          - 40
+          - 50
+          - 60
+          - 70
+          - 80
+      CIELAB: 
+        description: CIELAB scale
+        type: object
+        properties: 
+          L:
+            description: brightness, lightness
+            type: number
+          a: 
+            description: green to magenta colour
+            type: number
+          b:
+            description: blue to yellow colour
+            type: number
+      timestamp:
+        $ref: '#/definitions/MeasurementDate'
+  HairColor:
+    description: 'Hair colour described in scales (CIELAB, Fischer-Saller)'
+    type: object
+    properties:
+      hcPalet:
+        type: integer
+      Fisher-Saller:
+        type: string
+        enum:
+          - A very light blond
+          - 'B,C,D,E light blond'
+          - 'F,G,H,I,J,K,L blond'
+          - 'M,N,O dark blond'
+          - 'P,Q,R,S,T light brown to medium brown'
+          - 'U,V,W,X,Y dark brown/black'
+          - '1,2,3,4 red'
+          - '5,6 red blond'
+      CIELAB: 
+        description: CIELAB scale
+        type: object
+        properties: 
+          L:
+            description: brightness, lightness
+            type: number
+          a: 
+            description: green to magenta colour
+            type: number
+          b:
+            description: blue to yellow colour
+            type: number
+      timestamp:
+        $ref: '#/definitions/MeasurementDate'
+  EyeColour:
+    description: 'Eye colour described in scale (IrisPlex, Michalski, Martin-Schultz)'
+    type: object
+    properties:
+      IrisPlex:
+        type: integer
+        minimum: 1
+        maximum: 16
+      Martin-Schultz:
+        type: string
+        enum:
+          - 1-2 blue
+          - 3 blue-gray
+          - 4 gray iris
+          - 5 blue-gray iris with yellow/brown spots
+          - 6 gray green iris with yellow/brown spots
+          - 7 green
+          - 8 green with yellow/brown spots
+          - 9-10-11 light brown or hazel
+          - 12-13 medium brown
+          - 14-15-16 dark brown or black
+      Michalski:
+        type: integer
+        minimum: 1
+        maximum: 80
+      timestamp:
+        $ref: '#/definitions/MeasurementDate'
+  BloodGroup:
+    description: 'Blood group based on scales including Rh factor (AB0, Kell, Levis scales)'
+    type: object
+    properties:
+      ABO:
+        type: string
+        enum:
+          - A
+          - B
+          - AB
+          - '0'
+      Rh:
+        type: string
+        enum:
+          - Rh+
+          - Rh-
+      Lewis:
+        type: string
+        enum:
+          - Le(a-b-)
+          - Le(a-b+)
+          - Le(a+b-)
+      Kell:
+        type: string
+        enum:
+          - K
+          - k
+          - kp
+      Other:
+        type: string
+  WHR:
+    description: Waist - hip ratio
+    type: object
+    properties:
+      WHR:
+        type: number
+      timestamp:
+        $ref: '#/definitions/MeasurementDate'
+  BMI:
+    description: Body mass index
+    type: object
+    properties:
+      BMI:
+        type: number
+      timestamp:
+        $ref: '#/definitions/MeasurementDate'
+  CI:
+    description: Corpulence index (Rohrer's index)
+    type: object
+    properties:
+      CI:
+        type: number
+      timestamp:
+        $ref: '#/definitions/MeasurementDate'
+  H_lenght:
+    description: >-
+      Distance along a straight line between glabella and opisthocranion (g-op)
+      ('ISO 7250-1:2017')
+    type: object
+    properties:
+      h_len:
+        type: number
+      timestamp:
+        $ref: '#/definitions/MeasurementDate'
+  H_breadth:
+    description: >-
+      Maximum breadth of head above the level of the ears, measured
+      perpendicular to the midsagittal plane (eu-eu) ('ISO 7250-1:2017')
+    type: object
+    properties:
+      h_bre:
+        type: number
+      timestamp:
+        $ref: '#/definitions/MeasurementDate'
+  F_length:
+    description: >-
+      Morphological face length measured as a distance between nasion and
+      gnathion (n-gn) ('ISO 7250-1:2017')
+    type: object
+    properties:
+      f_len:
+        type: number
+      timestamp:
+        $ref: '#/definitions/MeasurementDate'
+  F_breadth:
+    description: 'Distance between zygion points (zy-zy) (''ISO 7250-1:2017'')'
+    type: object
+    properties:
+      f_bre:
+        type: number
+      timestamp:
+        $ref: '#/definitions/MeasurementDate'
+  H_circ:
+    description: >-
+      Maximum, approximately horizontal, circumference of head measured above
+      the galbella and crossing the rearmost point of skull ('ISO 7250-1:2017')
+    type: object
+    properties:
+      h_circ:
+        type: number
+      timestamp:
+        $ref: '#/definitions/MeasurementDate'
+  N_circ:
+    description: >-
+      Circumference of neck at the point just below the bulge at the thyroid
+      cartilage, perpendicular to the long axis of the neck ('ISO 7250-1:2017')
+    type: object
+    properties:
+      n_circ:
+        type: number
+      timestamp:
+        $ref: '#/definitions/MeasurementDate'
+  Weight_declarative:
+    description: Declarative total body mass given in kilograms (accuracy to 100 g)
+    type: object
+    properties:
+      weight:
+        type: number
+      timestamp:
+        $ref: '#/definitions/MeasurementDate'
+  Weight_measured:
+    description: Measured total body mass given in kilograms (accuracy to 100 g)
+    type: object
+    properties:
+      weight:
+        type: number
+      timestamp:
+        $ref: '#/definitions/MeasurementDate'
+  Stature_declarative:
+    description: 'Declarative total body height given in centimeters (accuracy to 0,5 cm)'
+    type: object
+    properties:
+      stature:
+        type: number
+      timestamp:
+        $ref: '#/definitions/MeasurementDate'
+  Stature_measured:
+    description: >-
+      Total body height measured as a distance between basis and vertex, given
+      in centimeters (accuracy to 0,5 cm)
+    type: object
+    properties:
+      stature:
+        type: number
+      timestamp:
+        $ref: '#/definitions/MeasurementDate'
+  Eye_height:
+    description: >-
+      Vertical distance from the floor (basis) to the outer corner of the eye
+      (ectocanthus)
+    type: object
+    properties:
+      e_height:
+        type: number
+      timestamp:
+        $ref: '#/definitions/MeasurementDate'
+  Shoulder_height:
+    description: Vertical distance from the floor (basis) to the acromion
+    type: object
+    properties:
+      e_height:
+        type: number
+      timestamp:
+        $ref: '#/definitions/MeasurementDate'
+  Iliac:
+    description: >-
+      Vertical distance from the floor (basis) to the most downward-directed
+      point of the iliac crest (iliospinale anterius)
+    type: object
+    properties:
+      i_height:
+        type: number
+      timestamp:
+        $ref: '#/definitions/MeasurementDate'
+  Tibial_height:
+    description: Vertical distance from the floor (basis) to the tibiale
+    type: object
+    properties:
+      t_height:
+        type: number
+      timestamp:
+        $ref: '#/definitions/MeasurementDate'
+  Sitting_height:
+    description: >-
+      Vertical distance from a horizontal sitting surface to the highest point
+      of the head (vertex)
+    type: object
+    properties:
+      s_height:
+        type: number
+      timestamp:
+        $ref: '#/definitions/MeasurementDate'
+  Shoulder_height_era:
+    description: Vertical distance from a horizontal sitting surface to the acromion
+    type: object
+    properties:
+      sh_height:
+        type: number
+      timestamp:
+        $ref: '#/definitions/MeasurementDate'
+  Knee_height:
+    description: >-
+      Vertical distance from the floor (basis) to the highest point of the
+      superior border of the patella (suprapatella, sitting)
+    type: object
+    properties:
+      k_height:
+        type: number
+      timestamp:
+        $ref: '#/definitions/MeasurementDate'
+  Chest_circ:
+    description: Vertical distance from a horizontal sitting surface to the acromion
+    type: object
+    properties:
+      c_circ:
+        type: number
+      timestamp:
+        $ref: '#/definitions/MeasurementDate'
+  Waist_circ:
+    description: >-
+      Horizontal circumference of the trunk at level midway between the lowest
+      ribs and the upper iliac crest
+    type: object
+    properties:
+      w_circ:
+        type: number
+      timestamp:
+        $ref: '#/definitions/MeasurementDate'
+  Hand_length:
+    description: >-
+      The distance from the tip of the middle finger, along its long axis, to a
+      line connecting the radial and ulnar styloid processes (sty-daIII)
+    type: object
+    properties:
+      h_len:
+        type: number
+  Hand_breadth:
+    description: >-
+      Projected distance between radial and ulnar metacarapls at the level of
+      the metacarpal heads from the second to the fifth metacarpal, measured
+      peripendicular to the long axis of the middle finger
+    type: object
+    properties:
+      h_bre:
+        type: number
+  Foot_length:
+    description: >-
+      Maximum distance from rear of the heel to tip of the longest toe, measured
+      parallel to the longitudinal axis of the foot
+    type: object
+    properties:
+      f_len:
+        type: number
+  Foot_breadth:
+    description: >-
+      Maximum distance between medial and lateral surfaces of the foot
+      perpendicular to the longitudinal axis of the foot
+    type: object
+    properties:
+      f_bre:
+        type: number
+  MedicalProcedure:
+    description: medical procedure
+    type: object
+    properties:
+      snomed:
+        type: integer
+      icd9:
+        type: string
+        pattern: '([V\d]\d{2}(\.?\d{0,2})?|E\d{3}(\.?\d)?|\d{2}(\.?\d{0,2})?)'
+      noCode:
+        type: string
+      timestamp:
+        $ref: '#/definitions/MeasurementDate'
+  Disease:
+    description: Disease
+    type: object
+    properties:
+      icd-10:
+        type: string
+        pattern: '([A-TV-Z][0-9][A-Z0-9](\.?[A-Z0-9]{0,4})?)'
+      noCode:
+        type: string
+      timestamp:
+        $ref: '#/definitions/MeasurementDate'
+      snomed:
+        type: integer
+  Sample:
+    description: sample material
+    type: object
+    properties:
+      materialType:
+        type: string
+        enum:
+          - nucleic acids
+          - Whole blood
+          - Buffy coat
+          - Plasma
+          - Serum
+          - Tissue
+          - FFPE
+          - Urine
+          - Saliva
+          - Stool
+          - Other
+      storageTemperature:
+        type: string
+        description: values in Celsius degrees scale
+        enum:
+          - Room temperature
+          - 2 to 10
+          - '-18 to -35'
+          - '-60 to -85'
+          - '-150 to -196'
+          - other
+      SampleMaterial:
+        $ref: '#/definitions/SampleMaterial'
+      SampleInfo:
+        $ref: '#/definitions/SampleInfo'
+      SampleQMS:
+        $ref: '#/definitions/SampleQMS'
+  SampleMaterial:
+    description: information about the sample
+    type: object
+    properties:
+      tissue:
+        type: object
+        properties:
+          source:
+            description: 'type of tissue (liver, muscle, brain, cells)'
+            type: string
+          kind:
+            description: healthy or pathologic
+            type: string
+          method:
+            description: 'method of collection (biopsy, surgery, other)'
+            type: string
+      whole blood:
+        type: object
+        properties:
+          method:
+            description: 'method of blood collecion (EDTA, heparin, citrate, CPDA)'
+            type: string
+            enum:
+              - EDTA
+              - heparin
+              - citrate
+              - CPDA
+      serum:
+        type: object
+        properties:
+          info:
+            description: 'special characteristic of serum (hemolitic, lipidic)'
+            type: string
+      plasma:
+        type: object
+        properties:
+          info:
+            description: >-
+              special characteristic of plasma (hemolitic, lipidic, too much
+              proteins)
+            type: string
+      buffy coat:
+        type: object
+        properties:
+          info:
+            description: the content of buffy coat
+      FFPE:
+        description: formalin fixed parafin embedded tissue
+        type: object
+        properties:
+          method:
+            description: '(sample preparation, fixation, embedding, staining)'
+            type: string
+          kind:
+            description: '(healthy, pathologic)'
+            type: string
+          source:
+            description: '(liver, brain, embrio)'
+            type: string
+      Urine:
+        type: object
+        properties:
+          info:
+            description: '(colour, protein content, pH)'
+            type: string
+      Saliva:
+        type: object
+        properties:
+          info:
+            description: '(colour, consistency)'
+            type: string
+          methods:
+            description: (saliva collection)
+            type: string
+      Stool:
+        type: object
+        properties:
+          info:
+            description: (any information)
+            type: string
+      Nucleic acid:
+        type: object
+        properties:
+          kind:
+            type: string
+            enum:
+              - DNA
+              - RNA
+              - miRNA
+              - other
+          source:
+            description: '(isolated from blood, tissue, FFPE)'
+            type: string
+          method:
+            description: method of isolation
+            type: string
+      Other:
+        type: string
+  SampleInfo:
+    type: object
+    required:
+      - sampleId
+    properties:
+      id:
+        type: integer
+        format: int64
+      sampleId:
+        type: string
+      parentSampleId:
+        type: string
+      accesion:
+        type: string
+        enum:
+          - accessible
+          - inaccessible
+          - limited access
+      timestamp:
+        $ref: '#/definitions/MeasurementDate'
+      collection:
+        description: BioBank collection
+        type: string
+      biobank:
+        description: Sample banking insttution
+        type: string
+      owner:
+        description: Sample owner
+        type: string
+      comments:
+        description: 'Additional information about sample (warnings, problems, QM)'
+        type: string
+  SampleQMS:
+    type: object
+    description: based on MIABIS 39-44
+    properties:
+      preCT:
+        type: string
+        description: pre centrifugation time
+      postCT:
+        type: string
+        description: post centrifugation time
+      primarycontainer:
+        type: string
+        description: list of the most common primary tubes
+      storagetemp:
+        type: string
+        description: long storage temperature after preparation
+      lid:
+        type: string
+        description: lid tightness control
+      markers:
+        type: string
+        description: 'measured stable markers (sodium, potassium)'
+      fasting:
+        type: string
+        description: if the sample is a fasting sample
+      documentation:
+        type: string
+        description: if pre-analysis is documented
+  Donor:
+    type: object
+    required:
+      - donorId
+    properties:
+      id:
+        type: integer
+        format: int64
+      donorId:
+        type: string
+      relatedId:
+        type: object
+        properties:
+          parents:
+            type: array
+            items:
+              $ref: '#/definitions/DonorID'
+          siblings:
+            type: array
+            items:
+              $ref: '#/definitions/DonorID'
+          children:
+            type: array
+            items:
+              $ref: '#/definitions/DonorID'
+          spouse:
+            type: array
+            items:
+              $ref: '#/definitions/DonorID'
+      gender:
+        type: string
+        description: Donor's gender
+        enum:
+          - Male
+          - Female
+          - Transgender
+          - Other
+      age:
+        type: integer
+        description: Donor's age based on date of birth
+      ethnic_group:
+        $ref: '#/definitions/Ethnic_group'
+      skinTone:
+        $ref: '#/definitions/SkinTone'
+      hairColor:
+        $ref: '#/definitions/HairColor'
+      weight_declarative:
+        $ref: '#/definitions/Weight_declarative'
+      weight_measured:
+        $ref: '#/definitions/Weight_measured'
+      stature_declarative:
+        $ref: '#/definitions/Stature_declarative'
+      stature_measured:
+        $ref: '#/definitions/Stature_measured'
+      eyeColor:
+        $ref: '#/definitions/EyeColour'
+      whr:
+        $ref: '#/definitions/WHR'
+      bmi:
+        $ref: '#/definitions/BMI'
+      blood group:
+        $ref: '#/definitions/BloodGroup'
+      ci:
+        $ref: '#/definitions/CI'
+      h_lenght:
+        $ref: '#/definitions/H_lenght'
+      h_breadth:
+        $ref: '#/definitions/H_breadth'
+      f_length:
+        $ref: '#/definitions/F_length'
+      f_breadth:
+        $ref: '#/definitions/F_breadth'
+      h_circ:
+        $ref: '#/definitions/H_circ'
+      n_circ:
+        $ref: '#/definitions/N_circ'
+      eye_height:
+        $ref: '#/definitions/Eye_height'  
+      shoulder_height:
+        $ref: '#/definitions/Shoulder_height'
+      iliac:
+        $ref: '#/definitions/Iliac'
+      tibial_height:
+        $ref: '#/definitions/Tibial_height'
+      sitting_height:
+        $ref: '#/definitions/Sitting_height'
+      shoulder_height_era:
+        $ref: '#/definitions/Shoulder_height_era'
+      knee_height:
+        $ref: '#/definitions/Knee_height'
+      chest_circ:
+        $ref: '#/definitions/Chest_circ'
+      waist_circ:
+        $ref: '#/definitions/Waist_circ'
+      hand_length:
+        $ref: '#/definitions/Hand_length'
+      hand_breadth:
+        $ref: '#/definitions/Hand_breadth'
+      foot_length:
+        $ref: '#/definitions/Foot_length'
+      foot_breadth:
+        $ref: '#/definitions/Foot_breadth'
+      birth_place:
+        $ref: '#/definitions/Birth_place'
+      residence_place:
+        $ref: '#/definitions/Residence_place'
+      diseases:
+        type: array
+        items:
+          $ref: '#/definitions/Disease'
+      medicalProcedures:
+        type: array
+        items:
+          $ref: '#/definitions/MedicalProcedure'
+      sample:
+        type: array
+        items:
+          $ref: '#/definitions/Sample'
