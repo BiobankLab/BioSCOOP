@@ -1,7 +1,7 @@
 swagger: '2.0'
 info:
   description: This is an eg. fields of BioSCOOP communication standard.
-  version: 0.0.1
+  version: 1.0.0
   title: BioSCOOP
   termsOfService: 'http://swagger.io/terms/'
   contact:
@@ -41,24 +41,37 @@ paths:
         '404':
           description: Donor not found
 definitions:
+  data_availability:
+    type: string
+    enum:
+      - 'yes'
+      - 'no'
+  Questionnaire:
+    description: access to questionnaire
+    type: string
+    enum:
+      - 'yes'
+      - 'no'
   Birth_place:
     description: Place of birth
     type: object
-    properties: 
-      BP: 
+    properties:
+      BP:
         description: place of birth
         type: string
-      timestamp: 
-        $ref: '#/definitions/MeasurementDate'
+      data_availability:
+        $ref: '#/definitions/data_availability'
   Residence_place:
-    description: place of current resident
+    description: place of current residence
     type: object
     properties:
       RP:
         description: place of current residence
         type: string
-      timestamp: 
+      timestamp:
         $ref: '#/definitions/MeasurementDate'
+      data_availability:
+        $ref: '#/definitions/data_availability'
   DonorID:
     description: >-
       Numeric code specific to particular sample-donor that also links the
@@ -75,26 +88,35 @@ definitions:
       dateCorrectess:
         type: string
   Ethnic_group:
-    description: Ethnic identity of donor (MIABIS 2.0)
-    type: string
-    enum:
-      - white
-      - yellow
-      - black
-      - mixed
+    description: Ethnic origin of donor
+    type: object
+    properties:
+      EG_name:
+        enum:
+          - European origin
+          - Asian origin
+          - African origin
+          - North American origin
+          - South American origin
+          - Australian origin
+          - Mixed
+      data_availability:
+        $ref: '#/definitions/data_availability'
   SkinTone:
     description: >-
       Skin tone described with the use of scales (Michalski and von Lunchen,
       CIELAB scales)
     type: object
     properties:
+      data_availability:
+        $ref: '#/definitions/data_availability'
       vonLuschan:
         description: von Luschan scale
         type: integer
         minimum: 1
         maximum: 32
       michalski:
-        description: michalski scale
+        description: Michalski scale
         type: integer
         enum:
           - 10
@@ -105,14 +127,14 @@ definitions:
           - 60
           - 70
           - 80
-      CIELAB: 
+      CIELAB:
         description: CIELAB scale
         type: object
-        properties: 
+        properties:
           L:
-            description: brightness, lightness
+            description: 'brightness, lightness'
             type: number
-          a: 
+          a:
             description: green to magenta colour
             type: number
           b:
@@ -124,55 +146,72 @@ definitions:
     description: 'Hair colour described in scales (CIELAB, Fischer-Saller)'
     type: object
     properties:
+      data_availability:
+        $ref: '#/definitions/data_availability'
       hcPalet:
         type: integer
       Fisher-Saller:
         type: string
         enum:
-          - A very light blond
-          - 'B,C,D,E light blond'
-          - 'F,G,H,I,J,K,L blond'
-          - 'M,N,O dark blond'
-          - 'P,Q,R,S,T light brown to medium brown'
-          - 'U,V,W,X,Y dark brown/black'
-          - '1,2,3,4 red'
-          - '5,6 red blond'
-      CIELAB: 
+          - A #very light blond
+          - B #light blond
+          - C #light blond
+          - D #light blond
+          - E #light blond
+          - F #blond
+          - G #blond
+          - H #blond
+          - I #blond
+          - J #blond
+          - K #blond
+          - L #blond
+          - M #dark blond
+          - N #dark blond
+          - O #dark blond
+          - P #light brown to medium brown
+          - Q #light brown to medium brown
+          - R #light brown to medium brown
+          - S #light brown to medium brown
+          - T #light brown to medium brown
+          - U #dark brown/black
+          - V #dark brown/black
+          - W #dark brown/black
+          - X #dark brown/black
+          - Y #dark brown/black
+          - 1 #red
+          - 2 #red
+          - 3 #red
+          - 4 #red
+          - 5 #red blond
+          - 6 #red blond
+      CIELAB:
         description: CIELAB scale
         type: object
-        properties: 
+        properties:
           L:
-            description: brightness, lightness
+            description: 'brightness, lightness'
             type: number
-          a: 
+          a:
             description: green to magenta colour
             type: number
           b:
             description: blue to yellow colour
             type: number
+      Descriptive:
+        description: declarative hair colour
+        type: string 
       timestamp:
         $ref: '#/definitions/MeasurementDate'
   EyeColour:
-    description: 'Eye colour described in scale (IrisPlex, Michalski, Martin-Schultz)'
+    description: 'Eye colour described in scale (Michalski, Martin-Schultz)'
     type: object
     properties:
-      IrisPlex:
+      data_availability:
+        $ref: '#/definitions/data_availability'
+      Martin-Schultz:
         type: integer
         minimum: 1
         maximum: 16
-      Martin-Schultz:
-        type: string
-        enum:
-          - 1-2 blue
-          - 3 blue-gray
-          - 4 gray iris
-          - 5 blue-gray iris with yellow/brown spots
-          - 6 gray green iris with yellow/brown spots
-          - 7 green
-          - 8 green with yellow/brown spots
-          - 9-10-11 light brown or hazel
-          - 12-13 medium brown
-          - 14-15-16 dark brown or black
       Michalski:
         type: integer
         minimum: 1
@@ -183,6 +222,8 @@ definitions:
     description: 'Blood group based on scales including Rh factor (AB0, Kell, Levis scales)'
     type: object
     properties:
+      data_availability:
+        $ref: '#/definitions/data_availability'
       ABO:
         type: string
         enum:
@@ -213,6 +254,8 @@ definitions:
     description: Waist - hip ratio
     type: object
     properties:
+      data_availability:
+        $ref: '#/definitions/data_availability'
       WHR:
         type: number
       timestamp:
@@ -221,6 +264,8 @@ definitions:
     description: Body mass index
     type: object
     properties:
+      data_availability:
+        $ref: '#/definitions/data_availability'
       BMI:
         type: number
       timestamp:
@@ -229,36 +274,41 @@ definitions:
     description: Corpulence index (Rohrer's index)
     type: object
     properties:
+      data_availability:
+        $ref: '#/definitions/data_availability'
       CI:
         type: number
       timestamp:
         $ref: '#/definitions/MeasurementDate'
   H_lenght:
     description: >-
-      Distance along a straight line between glabella and opisthocranion (g-op)
-      ('ISO 7250-1:2017')
+      Distance along a straight line between glabella and opisthocranion (g-op) ('ISO 7250-1:2017')
     type: object
     properties:
+      data_availability:
+        $ref: '#/definitions/data_availability'
       h_len:
         type: number
       timestamp:
         $ref: '#/definitions/MeasurementDate'
   H_breadth:
     description: >-
-      Maximum breadth of head above the level of the ears, measured
-      perpendicular to the midsagittal plane (eu-eu) ('ISO 7250-1:2017')
+      Maximum breadth of head above the level of the ears, measured perpendicular to the midsagittal plane (eu-eu) ('ISO 7250-1:2017')
     type: object
     properties:
+      data_availability:
+        $ref: '#/definitions/data_availability'
       h_bre:
         type: number
       timestamp:
         $ref: '#/definitions/MeasurementDate'
   F_length:
     description: >-
-      Morphological face length measured as a distance between nasion and
-      gnathion (n-gn) ('ISO 7250-1:2017')
+      Morphological face length measured as a distance between nasion and gnathion (n-gn) ('ISO 7250-1:2017')
     type: object
     properties:
+      data_availability:
+        $ref: '#/definitions/data_availability'
       f_len:
         type: number
       timestamp:
@@ -267,26 +317,30 @@ definitions:
     description: 'Distance between zygion points (zy-zy) (''ISO 7250-1:2017'')'
     type: object
     properties:
+      data_availability:
+        $ref: '#/definitions/data_availability'
       f_bre:
         type: number
       timestamp:
         $ref: '#/definitions/MeasurementDate'
   H_circ:
     description: >-
-      Maximum, approximately horizontal, circumference of head measured above
-      the galbella and crossing the rearmost point of skull ('ISO 7250-1:2017')
+      Maximum, approximately horizontal, circumference of head measured above the galbella and crossing the rearmost point of skull ('ISO 7250-1:2017')
     type: object
     properties:
+      data_availability:
+        $ref: '#/definitions/data_availability'
       h_circ:
         type: number
       timestamp:
         $ref: '#/definitions/MeasurementDate'
   N_circ:
     description: >-
-      Circumference of neck at the point just below the bulge at the thyroid
-      cartilage, perpendicular to the long axis of the neck ('ISO 7250-1:2017')
+      Circumference of neck at the point just below the bulge at the thyroid cartilage, perpendicular to the long axis of the neck ('ISO 7250-1:2017')
     type: object
     properties:
+      data_availability:
+        $ref: '#/definitions/data_availability'
       n_circ:
         type: number
       timestamp:
@@ -295,6 +349,8 @@ definitions:
     description: Declarative total body mass given in kilograms (accuracy to 100 g)
     type: object
     properties:
+      data_availability:
+        $ref: '#/definitions/data_availability'
       weight:
         type: number
       timestamp:
@@ -303,150 +359,158 @@ definitions:
     description: Measured total body mass given in kilograms (accuracy to 100 g)
     type: object
     properties:
+      data_availability:
+        $ref: '#/definitions/data_availability'
       weight:
         type: number
       timestamp:
         $ref: '#/definitions/MeasurementDate'
   Stature_declarative:
-    description: 'Declarative total body height given in centimeters (accuracy to 0,5 cm)'
+    description: 'Declarative total body height given in centimeters (accuracy to 0.5 cm)'
     type: object
     properties:
+      data_availability:
+        $ref: '#/definitions/data_availability'
       stature:
         type: number
       timestamp:
         $ref: '#/definitions/MeasurementDate'
   Stature_measured:
     description: >-
-      Total body height measured as a distance between basis and vertex, given
-      in centimeters (accuracy to 0,5 cm)
+      Total body height measured as a distance between basis and vertex, given in centimeters (accuracy to 0.5 cm)
     type: object
     properties:
+      data_availability:
+        $ref: '#/definitions/data_availability'
       stature:
         type: number
       timestamp:
         $ref: '#/definitions/MeasurementDate'
-  Eye_height:
+  Dactylion_height:
     description: >-
-      Vertical distance from the floor (basis) to the outer corner of the eye
-      (ectocanthus)
+      Vertical distance from the floor (Basis) to the tip of the third finger (daIII) in erect standing
     type: object
     properties:
-      e_height:
+      data_availability:
+        $ref: '#/definitions/data_availability'
+      da_height:
         type: number
       timestamp:
         $ref: '#/definitions/MeasurementDate'
   Shoulder_height:
-    description: Vertical distance from the floor (basis) to the acromion
+    description: Vertical distance from the floor (Basis) to the acromion
     type: object
     properties:
+      data_availability:
+        $ref: '#/definitions/data_availability'
       e_height:
         type: number
       timestamp:
         $ref: '#/definitions/MeasurementDate'
-  Iliac:
-    description: >-
-      Vertical distance from the floor (basis) to the most downward-directed
-      point of the iliac crest (iliospinale anterius)
+  Lower_limb_len_1:
+    description: Height of the point trochanterion (B-tro)
     type: object
     properties:
-      i_height:
+      data_availability:
+        $ref: '#/definitions/data_availability'
+      lll1:
         type: number
       timestamp:
         $ref: '#/definitions/MeasurementDate'
   Tibial_height:
-    description: Vertical distance from the floor (basis) to the tibiale
+    description: Vertical distance from the floor (Basis) to the tibiale
     type: object
     properties:
+      data_availability:
+        $ref: '#/definitions/data_availability'
       t_height:
         type: number
       timestamp:
         $ref: '#/definitions/MeasurementDate'
-  Sitting_height:
-    description: >-
-      Vertical distance from a horizontal sitting surface to the highest point
-      of the head (vertex)
+  Lower_limb_len_2:
+    description: Height of the symphysion (B-sy)
     type: object
     properties:
-      s_height:
-        type: number
-      timestamp:
-        $ref: '#/definitions/MeasurementDate'
-  Shoulder_height_era:
-    description: Vertical distance from a horizontal sitting surface to the acromion
-    type: object
-    properties:
-      sh_height:
-        type: number
-      timestamp:
-        $ref: '#/definitions/MeasurementDate'
-  Knee_height:
-    description: >-
-      Vertical distance from the floor (basis) to the highest point of the
-      superior border of the patella (suprapatella, sitting)
-    type: object
-    properties:
-      k_height:
+      data_availability:
+        $ref: '#/definitions/data_availability'
+      lll2:
         type: number
       timestamp:
         $ref: '#/definitions/MeasurementDate'
   Chest_circ:
-    description: Vertical distance from a horizontal sitting surface to the acromion
+    description: Chest circumference measured through xiphoidale (xi) point
     type: object
     properties:
+      data_availability:
+        $ref: '#/definitions/data_availability'
       c_circ:
         type: number
       timestamp:
         $ref: '#/definitions/MeasurementDate'
   Waist_circ:
     description: >-
-      Horizontal circumference of the trunk at level midway between the lowest
-      ribs and the upper iliac crest
+      Horizontal circumference of the trunk at level midway between the lowest ribs and the upper iliac crest
     type: object
     properties:
+      data_availability:
+        $ref: '#/definitions/data_availability'
       w_circ:
         type: number
       timestamp:
         $ref: '#/definitions/MeasurementDate'
   Hand_length:
     description: >-
-      The distance from the tip of the middle finger, along its long axis, to a
-      line connecting the radial and ulnar styloid processes (sty-daIII)
+      The distance from the tip of the middle finger, along its long axis, to a line connecting the radial and ulnar styloid processes (sty-daIII)
     type: object
     properties:
+      data_availability:
+        $ref: '#/definitions/data_availability'
       h_len:
         type: number
+      timestamp:
+        $ref: '#/definitions/MeasurementDate'
   Hand_breadth:
     description: >-
-      Projected distance between radial and ulnar metacarapls at the level of
-      the metacarpal heads from the second to the fifth metacarpal, measured
-      peripendicular to the long axis of the middle finger
+      Projected distance between radial and ulnar metacarapls at the level of the metacarpal heads from the second to the fifth metacarpal, measured peripendicular to the long axis of the middle finger
     type: object
     properties:
+      data_availability:
+        $ref: '#/definitions/data_availability'
       h_bre:
         type: number
+      timestamp:
+        $ref: '#/definitions/MeasurementDate'
   Foot_length:
     description: >-
-      Maximum distance from rear of the heel to tip of the longest toe, measured
-      parallel to the longitudinal axis of the foot
+      Maximum distance from rear of the heel to tip of the longest toe, measured parallel to the longitudinal axis of the foot
     type: object
     properties:
+      data_availability:
+        $ref: '#/definitions/data_availability'
       f_len:
         type: number
+      timestamp:
+        $ref: '#/definitions/MeasurementDate'
   Foot_breadth:
     description: >-
-      Maximum distance between medial and lateral surfaces of the foot
-      perpendicular to the longitudinal axis of the foot
+      Maximum distance between medial and lateral surfaces of the foot perpendicular to the longitudinal axis of the foot
     type: object
     properties:
+      data_availability:
+        $ref: '#/definitions/data_availability'
       f_bre:
         type: number
+      timestamp:
+        $ref: '#/definitions/MeasurementDate'
   MedicalProcedure:
-    description: medical procedure
+    description: medical procedure (icd-9, snomed, noCode descriptive name of procedure)
     type: object
     properties:
+      data_availability:
+        $ref: '#/definitions/data_availability'
       snomed:
         type: integer
-      icd9:
+      icd-9:
         type: string
         pattern: '([V\d]\d{2}(\.?\d{0,2})?|E\d{3}(\.?\d)?|\d{2}(\.?\d{0,2})?)'
       noCode:
@@ -457,15 +521,17 @@ definitions:
     description: Disease
     type: object
     properties:
+      data_availability:
+        $ref: '#/definitions/data_availability'
       icd-10:
         type: string
         pattern: '([A-TV-Z][0-9][A-Z0-9](\.?[A-Z0-9]{0,4})?)'
       noCode:
         type: string
-      timestamp:
-        $ref: '#/definitions/MeasurementDate'
       snomed:
         type: integer
+      timestamp:
+        $ref: '#/definitions/MeasurementDate'
   Sample:
     description: sample material
     type: object
@@ -473,7 +539,7 @@ definitions:
       materialType:
         type: string
         enum:
-          - nucleic acids
+          - Nucleic Acids
           - Whole blood
           - Buffy coat
           - Plasma
@@ -488,12 +554,12 @@ definitions:
         type: string
         description: values in Celsius degrees scale
         enum:
-          - Room temperature
-          - 2 to 10
+          - 'Room temperature'
+          - '+2 to +10'
           - '-18 to -35'
           - '-60 to -85'
           - '-150 to -196'
-          - other
+          - 'other'
       SampleMaterial:
         $ref: '#/definitions/SampleMaterial'
       SampleInfo:
@@ -508,7 +574,7 @@ definitions:
         type: object
         properties:
           source:
-            description: 'type of tissue (liver, muscle, brain, cells)'
+            description: 'type of tissue (liver, muscle, brain, cells, other)'
             type: string
           kind:
             description: healthy or pathologic
@@ -628,11 +694,11 @@ definitions:
         description: Sample owner
         type: string
       comments:
-        description: 'Additional information about sample (warnings, problems, QM)'
+        description: 'Additional information about sample (warnings, problems, QM, QC)'
         type: string
   SampleQMS:
     type: object
-    description: based on MIABIS 39-44
+    description: based on MIABIS 2.0 Attribute code:39-44
     properties:
       preCT:
         type: string
@@ -689,15 +755,24 @@ definitions:
               $ref: '#/definitions/DonorID'
       gender:
         type: string
-        description: Donor's gender
+        description: Donor's sex
         enum:
           - Male
           - Female
           - Transgender
           - Other
-      age:
-        type: integer
-        description: Donor's age based on date of birth
+          - NA
+      Birth_date:
+        description: Donor's date of birth
+        type: object
+        properties:
+          date:
+            type: string
+            format: date-time
+          dateCorrectess:
+            type: string
+          data_availability:
+            $ref: '#/definitions/data_availability'
       ethnic_group:
         $ref: '#/definitions/Ethnic_group'
       skinTone:
@@ -734,20 +809,16 @@ definitions:
         $ref: '#/definitions/H_circ'
       n_circ:
         $ref: '#/definitions/N_circ'
-      eye_height:
-        $ref: '#/definitions/Eye_height'  
+      dactylion_height:
+        $ref: '#/definitions/Dactylion_height'
       shoulder_height:
         $ref: '#/definitions/Shoulder_height'
-      iliac:
-        $ref: '#/definitions/Iliac'
+      lower_limb_len_1:
+        $ref: '#/definitions/Lower_limb_len_1'
+      ower_limb_len_2:
+        $ref: '#/definitions/Lower_limb_len_2'
       tibial_height:
         $ref: '#/definitions/Tibial_height'
-      sitting_height:
-        $ref: '#/definitions/Sitting_height'
-      shoulder_height_era:
-        $ref: '#/definitions/Shoulder_height_era'
-      knee_height:
-        $ref: '#/definitions/Knee_height'
       chest_circ:
         $ref: '#/definitions/Chest_circ'
       waist_circ:
@@ -764,6 +835,8 @@ definitions:
         $ref: '#/definitions/Birth_place'
       residence_place:
         $ref: '#/definitions/Residence_place'
+      questionnaire:
+        $ref: '#/definitions/Questionnaire'
       diseases:
         type: array
         items:
