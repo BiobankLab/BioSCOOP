@@ -103,6 +103,19 @@ definitions:
           - Mixed
       data_availability:
         $ref: '#/definitions/data_availability'
+  CIELAB:
+        description: CIELAB scale
+        type: object
+        properties:
+          L:
+            description: 'brightness, lightness'
+            type: number
+          a:
+            description: green to magenta colour
+            type: number
+          b:
+            description: blue to yellow colour
+            type: number
   SkinTone:
     description: >-
       Skin tone described with the use of scales (Michalski and von Lunchen,
@@ -129,18 +142,7 @@ definitions:
           - 70
           - 80
       CIELAB:
-        description: CIELAB scale
-        type: object
-        properties:
-          L:
-            description: 'brightness, lightness'
-            type: number
-          a:
-            description: green to magenta colour
-            type: number
-          b:
-            description: blue to yellow colour
-            type: number
+        $ref: '#/definitions/CIELAB'
       timestamp:
         $ref: '#/definitions/MeasurementDate'
   HairColor:
@@ -186,18 +188,7 @@ definitions:
           - 5 #red blond
           - 6 #red blond
       CIELAB:
-        description: CIELAB scale
-        type: object
-        properties:
-          L:
-            description: 'brightness, lightness'
-            type: number
-          a:
-            description: green to magenta colour
-            type: number
-          b:
-            description: blue to yellow colour
-            type: number
+        $ref: '#/definitions/CIELAB'
       Descriptive:
         description: declarative hair colour
         type: string 
@@ -583,7 +574,7 @@ definitions:
           method:
             description: 'method of collection (biopsy, surgery, other)'
             type: string
-      whole blood:
+      whole_blood:
         type: object
         properties:
           method:
@@ -608,7 +599,7 @@ definitions:
               special characteristic of plasma (hemolitic, lipidic, too much
               proteins)
             type: string
-      buffy coat:
+      buffy_coat:
         type: object
         properties:
           info:
@@ -647,7 +638,7 @@ definitions:
           info:
             description: (any information)
             type: string
-      Nucleic acid:
+      Nucleic_acid:
         type: object
         properties:
           kind:
