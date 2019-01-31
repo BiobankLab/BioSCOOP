@@ -794,7 +794,7 @@ definitions:
         $ref: '#/definitions/WHR'
       bmi:
         $ref: '#/definitions/BMI'
-      blood group:
+      blood_group:
         $ref: '#/definitions/BloodGroup'
       ci:
         $ref: '#/definitions/CI'
