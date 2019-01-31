@@ -92,6 +92,7 @@ definitions:
     type: object
     properties:
       EG_name:
+        type: string
         enum:
           - European origin
           - Asian origin
@@ -762,7 +763,7 @@ definitions:
           - Transgender
           - Other
           - NA
-      Birth_date:
+      birth_date:
         description: Donor's date of birth
         type: object
         properties:
