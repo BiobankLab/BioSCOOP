@@ -603,6 +603,7 @@ definitions:
         type: object
         properties:
           info:
+            type: string
             description: the content of buffy coat
       FFPE:
         description: formalin fixed parafin embedded tissue
