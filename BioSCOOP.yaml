@@ -773,7 +773,7 @@ definitions:
             type: array
             items:
               $ref: '#/definitions/DonorID'
-      gender:
+      sex:
         type: string
         description: Donor's sex
         enum:
