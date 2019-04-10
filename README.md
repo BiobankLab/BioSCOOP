@@ -11,7 +11,7 @@ BioSCOOP is divided into three parts: the data format definition, data operation
 
 - Data format definition
 - Data operations definition
-- Data query format
+
 
 **Glossary**
 
