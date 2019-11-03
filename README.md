@@ -4,7 +4,7 @@
 
 The idea behind BioSCOOP is to create a standard of information interchange for Biobanks. Similar ideas are already present, however are not very widespread and their development pace doesn’t seem to be very fast. BioSCOOP is not supposed to be yet another Biobank data format, it aims to provide the data format together with the methods of data interchange. BioSCOOP is created with following principles in mind:
 It should conform to the modern IT industrial standards.
-It should not be tightly coupled to any specific programming language or daga storage.
+It should not be tightly coupled to any specific programming language or data storage.
 It should be easy to integrate BioSCOOP capabilities into existing BBMS.
 
 BioSCOOP is divided into three parts: the data format definition, data operations definition, data query format.
