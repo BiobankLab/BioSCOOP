@@ -1,7 +1,7 @@
 swagger: '2.0'
 info:
   description: This is an eg. fields of BioSCOOP communication standard.
-  version: 1.0.0
+  version: 1.0.1
   title: BioSCOOP
   termsOfService: 'http://swagger.io/terms/'
   contact:
@@ -70,6 +70,11 @@ definitions:
       RP:
         description: place of current residence
         type: string
+      RPType:
+        description: >-
+          place of current residence type eg. village, city up to 20,000
+          residents
+        type: string
       timestamp:
         $ref: '#/definitions/MeasurementDate'
       data_availability:
@@ -127,6 +132,9 @@ definitions:
     properties:
       data_availability:
         $ref: '#/definitions/data_availability'
+      Descriptive:
+        description: declarative skin tone
+        type: string
       vonLuschan:
         description: von Luschan scale
         type: integer
@@ -205,6 +213,9 @@ definitions:
     properties:
       data_availability:
         $ref: '#/definitions/data_availability'
+      Descriptive:
+        description: declarative eye colour
+        type: string
       Martin-Schultz:
         type: integer
         minimum: 1
